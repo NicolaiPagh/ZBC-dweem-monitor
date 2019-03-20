@@ -15,14 +15,21 @@ namespace dweem_monitor.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "DWEEM monitoring - An exclusive monitoring tool for your server.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "For contact, please refer to the section below.";
+
+            return View();
+        }
+
+        public ActionResult Dashboard()
+        {
+            ViewBag.Message = "Monitoring page.";
 
             return View();
         }
