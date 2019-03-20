@@ -33,5 +33,10 @@ namespace dweem_monitor.Controllers
 
             return View();
         }
+        public ActionResult PerfMon()
+        {
+            ViewBag.Message = "PerfMon test page.";
+            return View();
+        }
     }
 }
