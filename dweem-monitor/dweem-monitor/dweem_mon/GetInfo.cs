@@ -4,21 +4,19 @@ using System.Linq;
 using System.Web;
 using System.Diagnostics;
 
-namespace dweem_monitor.dweem_mon
+namespace dweem_monitor
 {
-    public class GetInfo
+    public class Monitor
     {
-
-        PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-        PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
-
-        public string getCurrentCpuUsage()
+        public static string getCurrentCpuUsage()
         {
+            PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             return cpuCounter.NextValue() + "%";
         }
 
-        public string getAvailableRAM()
+        public static string getAvailableRAM()
         {
+            PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
             return ramCounter.NextValue() + "MB";
         }
     }
