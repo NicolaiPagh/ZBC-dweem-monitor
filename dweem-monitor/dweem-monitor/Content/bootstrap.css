@@ -1290,16 +1290,15 @@ p {
   margin: 0 0 10px;
 }
 .lead {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   font-size: 16px;
   font-weight: 300;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 @media (min-width: 768px) {
   .lead {
     font-size: 20px;
     font: bold;
-
   }
 }
 small,
@@ -4960,7 +4959,7 @@ a.badge:focus {
 .jumbotron {
     padding-top: 30px;
     padding-bottom: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     color: black;
     background-color: transparent;
 }
