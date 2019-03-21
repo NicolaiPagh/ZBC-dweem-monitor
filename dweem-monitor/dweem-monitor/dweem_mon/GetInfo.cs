@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Diagnostics;
 
 namespace dweem_monitor.dweem_mon
 {
     public class GetInfo
     {
-
-        PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-        PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
-
-        public string getCurrentCpuUsage()
+        public static dynamic get_cpus()
         {
-            return cpuCounter.NextValue() + "%";
-        }
+            dynamic returndata = new ExpandoObject();
 
-        public string getAvailableRAM()
-        {
-            return ramCounter.NextValue() + "MB";
+            var scope = new ManagementScope(Functions.GetServerName());
+            var query = new SelectQuery("Select Name, NumberOfCores, NumberOfLogicalProcessors from Win32_Processor");
+            var searcher = new ManagementObjectSearcher(scope, query);
+
+            foreach (var x in searcher.Get())
+            {
+                returndata.name = x["Name"].ToString(); // CPU Name
+                returndata.cores = x["NumberOfCores"].ToString(); // Cores
+                returndata.threads = x["NumberOfLogicalProcessors"].ToString(); // Threads
+            }
+
+            return returndata;
         }
     }
 }
