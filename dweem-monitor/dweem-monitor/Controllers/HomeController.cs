@@ -38,5 +38,10 @@ namespace dweem_monitor.Controllers
             ViewBag.Message = "PerfMon test page.";
             return View();
         }
+        public ActionResult Sql()
+        {
+            ViewBag.Message = "SQL test page.";
+            return View();
+        }
     }
 }
