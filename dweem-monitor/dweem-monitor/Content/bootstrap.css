@@ -1297,7 +1297,9 @@ p {
 }
 @media (min-width: 768px) {
   .lead {
-    font-size: 21px;
+    font-size: 20px;
+    font: bold;
+
   }
 }
 small,
@@ -3057,9 +3059,9 @@ fieldset[disabled] a.btn {
   pointer-events: none;
 }
 .btn-default {
-  color: #333;
-  background-color: #fff;
-  border-color: #ccc;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
 }
 .btn-default:focus,
 .btn-default.focus {
@@ -3118,17 +3120,17 @@ fieldset[disabled] .btn-default.focus {
   background-color: darkgreen;
   border-color: darkgreen;
 }
-.btn-primary:focus,
-.btn-primary.focus {
-  color: #fff;
-  background-color: #286090;
-  border-color: #122b40;
-}
-.btn-primary:hover {
-  color: #fff;
-  background-color: #286090;
-  border-color: #204d74;
-}
+    .btn-primary:focus,
+    .btn-primary.focus {
+        color: #fff;
+        background-color: darkgreen;
+        border-color: darkgreen;
+    }
+    .btn-primary:hover {
+        color: darkgreen;
+        background-color: #fff;
+        border-color: darkgreen;
+    }
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
@@ -3433,10 +3435,10 @@ fieldset[disabled] .btn-link:focus {
 }
 .btn-lg,
 .btn-group-lg > .btn {
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.3333333;
-  border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    border-radius: 10px;
 }
 .btn-sm,
 .btn-group-sm > .btn {

@@ -211,6 +211,8 @@
     <Content Include="Images\dweem3.png" />
     <Content Include="Images\dweem4.png" />
     <Content Include="Images\dweem5.png" />
+    <Content Include="Images\dweemlogo.png" />
+    <Content Include="Images\dweemlogo1.png" />
     <Content Include="Images\Header-V3-3.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
