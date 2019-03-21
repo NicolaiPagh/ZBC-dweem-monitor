@@ -11,6 +11,7 @@ namespace dweem_monitor
         public static string getCurrentCpuUsage()
         {
             PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            cpuCounter.NextValue();
             return cpuCounter.NextValue() + "%";
         }
 
