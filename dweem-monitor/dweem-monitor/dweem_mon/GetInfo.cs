@@ -23,7 +23,7 @@ namespace dweem_monitor
             return Convert.ToInt32(ramCounter.NextValue());
         }
 
-        public static float getCommitedRAM()
+        public static float getCommittedRAM()
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Memory", "% Committed Bytes In Use");
             //return ram available as an int in MB
