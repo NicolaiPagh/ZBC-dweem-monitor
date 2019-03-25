@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Dashboard";
 
-    int[] cpuSamples = new int [20];
+    int[] cpuSamples = new int[20];
 
     for (int i = 0; i < 20; i++)
     {
@@ -17,3 +17,25 @@
 <p>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
 <p>Current RAM in use = @Monitor.getCommittedRAM()%</p>
 
+@{CimSession session = Monitor.wmiProcess();}
+
+@{
+    var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
+
+<table style="width:auto; border: 1px solid black; padding: 10px;">
+    @foreach (CimInstance oneVolume in allVolumes)
+    {
+        <tr style="width:auto; border: 1px solid black; padding: 10px;">
+            @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["DriveLetter"]</td>
+                    <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["Size"]</td>
+                    <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["SizeRemaining"]</td>
+                }
+            }
+        </tr>
+    }
+</table>
+}
