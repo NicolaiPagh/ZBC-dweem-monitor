@@ -29,5 +29,11 @@ namespace dweem_monitor
             //return ram available as an int in MB
             return ramCounter.NextValue();
         }
+        public static float getNetworkBandwidth()
+        {
+            PerformanceCounter netBandwidthCounter = new PerformanceCounter("Network Interface", "Current Bandwidth", "JMicron PCI Express Gigabit Ethernet Adapter");
+            //return ram available as an int in MB
+            return netBandwidthCounter.NextValue();
+        }
     }
 }
