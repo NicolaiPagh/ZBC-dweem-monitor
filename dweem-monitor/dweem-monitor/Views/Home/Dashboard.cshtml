@@ -21,21 +21,33 @@
 
 @{
     var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
+    var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
 
 <table style="width:auto; border: 1px solid black; padding: 10px;">
     @foreach (CimInstance oneVolume in allVolumes)
     {
-        <tr style="width:auto; border: 1px solid black; padding: 10px;">
-            @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["DriveLetter"]</td>
-                    <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["Size"]</td>
-                    <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["SizeRemaining"]</td>
-                }
-            }
-        </tr>
+    <tr style="width:auto; border: 1px solid black; padding: 10px;">
+        @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
+        {
+            <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["DriveLetter"]</td>
+            <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["Capacity"]</td>
+            <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["FreeSpace"]</td>
+        }
+    </tr>
+    }
+</table>
+
+<br />
+
+<table style="width:auto; border: 1px solid black; padding: 10px;">
+    @foreach (CimInstance onePDisk in allPDisks)
+    {
+    <tr style="width:auto; border: 1px solid black; padding: 10px;">
+        <td style="width:auto; border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"]</td>
+        <td style="width:auto; border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd()</td>
+        <td style="width:auto; border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"]</td>
+    </tr>
     }
 </table>
 }
+
