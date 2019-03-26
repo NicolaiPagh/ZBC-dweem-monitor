@@ -17,6 +17,48 @@
 <p>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
 <p>Current RAM in use = @Monitor.getCommittedRAM()%</p>
 
+@{CimSession session = Monitor.wmiProcess();}
+
+@{
+    var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
+    var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
+
+<table style="border: 1px solid black; padding: 10px;">
+    <tr style="border: 1px solid black; padding: 10px;">
+        <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
+        <td style="border: 1px solid black; padding: 10px;">Capacity</td>
+        <td style="border: 1px solid black; padding: 10px;">Free Space</td>
+    </tr>
+    @foreach (CimInstance oneVolume in allVolumes)
+    {
+    <tr style="border: 1px solid black; padding: 10px;">
+        @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
+        {
+            if (@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]) != "DriveLetter")
+            {
+                <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]).Split(' ')[2]</td>
+                <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["Capacity"]).Split(' ')[2]</td>
+                <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["FreeSpace"]).Split(' ')[2]</td>
+            }
+        }
+    </tr>
+    }
+</table>
+
+<br />
+
+<table style="border: 1px solid black; padding: 10px;">
+    @foreach (CimInstance onePDisk in allPDisks)
+    {
+    <tr style="border: 1px solid black; padding: 10px;">
+        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"]</td>
+        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd()</td>
+        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"]</td>
+    </tr>
+    }
+</table>
+}
+
 <div class="row">
     <img src="@Url.Action("RamChart")" alt="SimpleChart" />
 </div>
