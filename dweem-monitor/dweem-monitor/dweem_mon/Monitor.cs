@@ -47,14 +47,8 @@ namespace dweem_monitor
         }
         public static float getDiskAvgThroughput()
         {
-            PerformanceCounter diskAvgThroughput = new PerformanceCounter("PhysicalDisk", "Avg. Disk Bytes/Transfer", "_Total");
-            return diskAvgThroughput.NextValue();
-        }
-        public static float getSysUpTime()
-        {
-            PerformanceCounter sysUpTime = new PerformanceCounter("System", "System Up Time");
-            //gets system up time in miliseconds
-            return sysUpTime.NextValue();
+            PerformanceCounter diskAvgThroughputCounter = new PerformanceCounter("PhysicalDisk", "Avg. Disk Bytes/Transfer", "_Total");
+            return diskAvgThroughputCounter.NextValue();
         }
     }
 }
