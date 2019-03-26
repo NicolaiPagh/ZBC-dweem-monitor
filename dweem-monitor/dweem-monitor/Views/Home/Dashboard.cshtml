@@ -22,6 +22,8 @@
 @{
     var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
     var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
+    var allProcessors = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Processor");
+
 
 <table style="border: 1px solid black; padding: 10px;">
     <tr style="border: 1px solid black; padding: 10px;">
@@ -58,4 +60,15 @@
     }
 </table>
 }
+<br />
 
+<table style="border: 1px solid black; padding: 10px;">
+    @foreach (CimInstance oneProcessor in allProcessors)
+    {
+    <tr style="border: 1px solid black; padding: 10px;">
+        <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["Name"]</td>
+        <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["LoadPercentage"]</td>
+        <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["Status"]</td>
+    </tr>
+    }
+</table
