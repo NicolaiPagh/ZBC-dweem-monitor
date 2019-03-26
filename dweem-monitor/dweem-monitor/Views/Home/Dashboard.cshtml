@@ -23,15 +23,23 @@
     var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
     var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
 
-<table style="width:auto; border: 1px solid black; padding: 10px;">
+<table style="border: 1px solid black; padding: 10px;">
+    <tr style="border: 1px solid black; padding: 10px;">
+        <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
+        <td style="border: 1px solid black; padding: 10px;">Capacity</td>
+        <td style="border: 1px solid black; padding: 10px;">Free Space</td>
+    </tr>
     @foreach (CimInstance oneVolume in allVolumes)
     {
-    <tr style="width:auto; border: 1px solid black; padding: 10px;">
+    <tr style="border: 1px solid black; padding: 10px;">
         @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
         {
-            <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["DriveLetter"]</td>
-            <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["Capacity"]</td>
-            <td style="width:auto; border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["FreeSpace"]</td>
+            if (@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]) != "DriveLetter")
+            {
+                <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]).Split(' ')[2]</td>
+                <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["Capacity"]).Split(' ')[2]</td>
+                <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["FreeSpace"]).Split(' ')[2]</td>
+            }
         }
     </tr>
     }
@@ -39,13 +47,13 @@
 
 <br />
 
-<table style="width:auto; border: 1px solid black; padding: 10px;">
+<table style="border: 1px solid black; padding: 10px;">
     @foreach (CimInstance onePDisk in allPDisks)
     {
-    <tr style="width:auto; border: 1px solid black; padding: 10px;">
-        <td style="width:auto; border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"]</td>
-        <td style="width:auto; border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd()</td>
-        <td style="width:auto; border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"]</td>
+    <tr style="border: 1px solid black; padding: 10px;">
+        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"]</td>
+        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd()</td>
+        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"]</td>
     </tr>
     }
 </table>
