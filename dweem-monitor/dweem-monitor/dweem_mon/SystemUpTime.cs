@@ -8,7 +8,7 @@ namespace dweem_monitor
 {
     public class SystemUpTime
     {
-        private static TimeSpan getUptime()
+        public static TimeSpan getUptime()
         {
             PerformanceCounter sysUpTimeCounter = new PerformanceCounter("System", "System Up Time");
             //sys up time is a two-read counter, so calling it once to get the data then another time to actually output it is required. Dont ask.

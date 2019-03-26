@@ -3,19 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace dweem_monitor
 {
     public class Monitor
     {
-        public static int getCurrentCpuUsage()
+        private static float getCurrentCpuUsage()
         {
             PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             cpuCounter.NextValue();
             //return cpu usage as an int in percent
-            return Convert.ToInt32(cpuCounter.NextValue());
+            return cpuCounter.NextValue();
         }
-
+        private static readonly CancellationTokenSource cts = new CancellationTokenSource();
+        public static double getCpuUsageAvg(int samples)
+        {
+            float[] cpuSamples = new float[samples];
+            for (int i = 0; i < samples; i++)
+            {
+                cpuSamples[i] = Monitor.getCurrentCpuUsage();
+                Task.Delay(TimeSpan.FromMilliseconds(10), cts.Token).GetAwaiter().GetResult();
+            }
+            return cpuSamples.Average();
+        }
         public static int getAvailableRAM()
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
