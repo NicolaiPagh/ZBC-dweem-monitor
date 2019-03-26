@@ -14,9 +14,9 @@ namespace dweem_monitor
     public class Monitor
     {
 
-        public static CimSession wmiProcess()
+        public static CimSession wmiProcess(string computer)
         {
-            string computer = "192.168.1.27";
+            //string computer = "192.168.1.27";
             string domain = "dweem.local";
             string username = "jof";
 
