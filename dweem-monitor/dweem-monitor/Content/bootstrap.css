@@ -6785,6 +6785,8 @@ button.close {
 }
 .mon-counter-cpu {
     color:forestgreen;
+    font-weight: 700;
+    text-align: center;
 }
 
 /*# sourceMappingURL=bootstrap.css.map */

@@ -51,7 +51,7 @@ namespace dweem_monitor.Controllers
             decimal aRAM = Convert.ToDecimal(Monitor.getAvailableRAM());
 
             string myTheme =
-                @"<Chart BackColor=""Transparent"" >
+                @"<Chart BackColor=""Transparent"">
                                         <ChartAreas>
                                                <ChartArea Name=""Default"" BackColor=""Transparent""></ChartArea>
                                         </ChartAreas>
@@ -59,7 +59,7 @@ namespace dweem_monitor.Controllers
             new Chart(width: 260, height: 260, theme: myTheme)
                 .AddSeries(
                     chartType: "pie",
-                         xValue: new[] { "Available Ram", "Used Ram" },
+                         xValue: new[] { "Available RAM", "Used RAM" },
                     yValues: new[] { aRAM, uRAM, })
                 .Write("png");
             return null;
@@ -94,7 +94,7 @@ namespace dweem_monitor.Controllers
                         new Chart(width: 260, height: 260, theme: myTheme)
                             .AddSeries(
                                 chartType: "pie",
-                                     xValue: new[] { "Available Diskspace", "Used Diskspace"},
+                                     xValue: new[] { "Available Diskspace", "Used Diskspace" },
                                 yValues: new[] { aDisk, uDisk, })
                             .Write("png");
                         

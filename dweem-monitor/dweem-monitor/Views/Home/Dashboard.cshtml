@@ -5,9 +5,8 @@
 
 <center>
     <h1 class="dash-title">Dashboard</h1>
-    <br />  
+    <br />
     <h3 class="dash-divider">Local Monitoring</h3>
-            <p class="mon-counter-cpu">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
 
     <table>
         <tr>
@@ -19,8 +18,8 @@
                 <img src="@Url.Action("RamChart")" alt="SimpleChart" />
             </td>
             <td>
-                <p class="cpuaverage">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
-                <p class="cpuaverage">Total RAM = @Monitor.getTotalRAM()MB</p>
+                <p class="mon-counter-cpu" style="border: 1px solid black; padding: 10px;">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
+                <p class="mon-counter-cpu" style="border: 1px solid black; padding: 10px;">Total RAM = @Monitor.getTotalRAM()MB</p>
             </td>
         </tr>
     </table>
@@ -34,8 +33,10 @@
         computers.Add("192.168.1.28");
 
     }
+    <h3 class="dash-divider">Event-log</h3>
 
-            <h3 class="dash-divider">Remote Monitoring</h3>
+
+    <h3 class="dash-divider">Remote Monitoring</h3>
 
     <form method="post">
         <select name="ddComputers">
@@ -57,80 +58,78 @@
         var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
         var allProcessors = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Processor");
 
-    <table>
-        <tr>
-            <td style="padding:10px;">
-                <table style="border: 1px solid black; padding: 10px;">
-                    <tr style="border: 1px solid black; padding: 10px;">
-                        <td style="border: 1px solid black; padding: 10px;">System Name</td>
-                        <td style="border: 1px solid black; padding: 10px;">CPU Model</td>
-                        <td style="border: 1px solid black; padding: 10px;">CPU Load</td>
-                    </tr>
-                    @foreach (CimInstance oneProcessor in allProcessors)
-                    {
+        <table>
+            <tr>
+                <td style="padding:10px;">
+                    <table style="border: 1px solid black; padding: 10px;">
                         <tr style="border: 1px solid black; padding: 10px;">
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "SystemName")</td>
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "Name")</td>
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "LoadPercentage")%</td>
+                            <td style="border: 1px solid black; padding: 10px;">System Name</td>
+                            <td style="border: 1px solid black; padding: 10px;">CPU Model</td>
+                            <td style="border: 1px solid black; padding: 10px;">CPU Load</td>
                         </tr>
-                    }
-                </table>
-            </td>
-            <td>
-                <table style="border: 1px solid black; padding: 10px;">
-                    <tr style="border: 1px solid black; padding: 10px;">
-                        <td style="border: 1px solid black; padding: 10px;">Disk ID</td>
-                        <td style="border: 1px solid black; padding: 10px;">Disk Model</td>
-                        <td style="border: 1px solid black; padding: 10px;">Disk Partitions</td>
-                    </tr>
-                    @foreach (CimInstance onePDisk in allPDisks)
-                    {
+                        @foreach (CimInstance oneProcessor in allProcessors)
+                        {
+                            <tr style="border: 1px solid black; padding: 10px;">
+                                <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "SystemName")</td>
+                                <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "Name")</td>
+                                <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "LoadPercentage")%</td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+                <td>
+                    <table style="border: 1px solid black; padding: 10px;">
                         <tr style="border: 1px solid black; padding: 10px;">
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "DeviceId")</td>
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "Model")</td>
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "Partitions")</td>
+                            <td style="border: 1px solid black; padding: 10px;">Disk ID</td>
+                            <td style="border: 1px solid black; padding: 10px;">Disk Model</td>
+                            <td style="border: 1px solid black; padding: 10px;">Disk Partitions</td>
                         </tr>
-                    }
-                </table>
-            </td>
-        </tr>
-    </table>
-    <br />
+                        @foreach (CimInstance onePDisk in allPDisks)
+                        {
+                            <tr style="border: 1px solid black; padding: 10px;">
+                                <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "DeviceId")</td>
+                                <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "Model")</td>
+                                <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "Partitions")</td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br />
 
-    <table>
-        <tr>
-            <td>
-                <table style="border: 1px solid black; padding: 10px;">
-                    <tr style="border: 1px solid black; padding: 10px;">
-                        <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
-                        <td style="border: 1px solid black; padding: 10px;">Capacity</td>
-                        <td style="border: 1px solid black; padding: 10px;">Free Space</td>
-                    </tr>
-                    @foreach (CimInstance oneVolume in allVolumes)
-                    {
+        <table>
+            <tr>
+                <td>
+                    <table style="border: 1px solid black; padding: 10px;">
                         <tr style="border: 1px solid black; padding: 10px;">
-                            @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
-                            {
-                                if (@oneVolume.CimInstanceProperties["DriveLetter"].ToString() != "DriveLetter")
+                            <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
+                            <td style="border: 1px solid black; padding: 10px;">Capacity</td>
+                            <td style="border: 1px solid black; padding: 10px;">Free Space</td>
+                        </tr>
+                        @foreach (CimInstance oneVolume in allVolumes)
+                        {
+                            <tr style="border: 1px solid black; padding: 10px;">
+                                @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
                                 {
-                                    <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneVolume, "DriveLetter")</td>
-                                    <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(Monitor.formatCim(oneVolume, "Capacity")) / 1000000) MB</td>
-                                    <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(Monitor.formatCim(oneVolume, "FreeSpace")) / 1000000) MB</td>
+                                    if (@oneVolume.CimInstanceProperties["DriveLetter"].ToString() != "DriveLetter")
+                                    {
+                                        <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneVolume, "DriveLetter")</td>
+                                        <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(Monitor.formatCim(oneVolume, "Capacity")) / 1000000) MB</td>
+                                        <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(Monitor.formatCim(oneVolume, "FreeSpace")) / 1000000) MB</td>
+                                    }
                                 }
-                            }
-                        </tr>
-                    }
-                </table>
-            </td>
-            <td>
-                <img src="@Url.Action("DiskChart", new { computer = computer })" alt="SimpleChart" />
-            </td>
-        </tr>
-    </table>
+                            </tr>
+                        }
+                    </table>
+                </td>
+                <td>
+                    <img src="@Url.Action("DiskChart", new { computer = computer })" alt="SimpleChart" />
+                </td>
+            </tr>
+        </table>
 
-
-    <br />
-
+        <br />
 
 
 
