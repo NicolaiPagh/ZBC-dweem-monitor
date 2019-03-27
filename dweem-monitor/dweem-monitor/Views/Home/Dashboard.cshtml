@@ -3,99 +3,126 @@
     ViewBag.Title = "Dashboard";
 
 }
-<h1>LocalMon</h1>
-<p>Average CPU usage over 100 samples = @Monitor.getCpuUsageAvg(100)%</p>
-<p>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
-<p>Current RAM in use = @Monitor.getCommittedRAM()MB</p>
-<div class="row">
-    <img src="@Url.Action("RamChart")" alt="SimpleChart" />
-</div>
+<center>
+    <h1 style="color:darkred">Dashboard</h1>
+    <h2>LocalMon</h2>
+    <p>Average CPU usage over 100 samples = @Monitor.getCpuUsageAvg(100)%</p>
 
-<h1>RemoteMon</h1>
-
-@{
-    List<string> computers = new List<string>();
-    computers.Add("192.168.1.27");
-    computers.Add("192.168.1.28");
-    
-}
-
-<form method="post">
-    <select name="ddComputers">
-        @foreach (string c in computers)
-        {
-            <option value=@c>@c</option>
-        }
-    </select>
-    <br />
-    <input type="submit">
-</form>
-<br />
-@if (IsPost)
-{
-    string computer = Request.Form["ddComputers"];
-    CimSession session = Monitor.wmiProcess(computer);
-
-    var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
-    var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
-    var allProcessors = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Processor");
-
-    <table style="border: 1px solid black; padding: 10px;">
-        <tr style="border: 1px solid black; padding: 10px;">
-            <td style="border: 1px solid black; padding: 10px;">System Name</td>
-            <td style="border: 1px solid black; padding: 10px;">CPU Model</td>
-            <td style="border: 1px solid black; padding: 10px;">CPU Load</td>
+    <table>
+        <tr>
+            <td>
+                <p><div style="height: 10px; width: 10px; background-color:dodgerblue"></div>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
+                <p><div style="height: 10px; width: 10px; background-color:orange"></div>Current RAM in use = @Convert.ToInt32(Monitor.getCommittedRAM())MB</p>
+            </td>
+            <td>
+                <img src="@Url.Action("RamChart")" alt="SimpleChart" />
+            </td>
         </tr>
-        @foreach (CimInstance oneProcessor in allProcessors)
-        {
-            <tr style="border: 1px solid black; padding: 10px;">
-                <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["SystemName"].ToString().Split(' ')[2].Replace('"', ' ')</td>
-                <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["Name"].ToString().TrimEnd().Split('=')[1].Replace('"', ' ').Replace('.', ' ')</td>
-                <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["LoadPercentage"].ToString().Split(' ')[2]%</td>
-            </tr>
-        }
     </table>
 
+
+
+
+    @{
+        List<string> computers = new List<string>();
+        computers.Add("192.168.1.27");
+        computers.Add("192.168.1.28");
+
+    }
+
+
+
+    <h2>RemoteMon</h2>
+
+
+    <form method="post">
+        <select name="ddComputers">
+            @foreach (string c in computers)
+            {
+                <option value=@c>@c</option>
+            }
+        </select>
+        <br />
+        <input type="submit">
+    </form>
     <br />
+    @if (IsPost)
+    {
+        string computer = Request.Form["ddComputers"];
+        CimSession session = Monitor.wmiProcess(computer);
 
+        var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
+        var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
+        var allProcessors = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Processor");
 
-    <table style="border: 1px solid black; padding: 10px;">
-        <tr style="border: 1px solid black; padding: 10px;">
-            <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
-            <td style="border: 1px solid black; padding: 10px;">Capacity</td>
-            <td style="border: 1px solid black; padding: 10px;">Free Space</td>
-        </tr>
-        @foreach (CimInstance oneVolume in allVolumes)
-        {
+        <table style="border: 1px solid black; padding: 10px;">
             <tr style="border: 1px solid black; padding: 10px;">
-                @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
-                {
-                    if (@oneVolume.CimInstanceProperties["DriveLetter"].ToString() != "DriveLetter")
+                <td style="border: 1px solid black; padding: 10px;">System Name</td>
+                <td style="border: 1px solid black; padding: 10px;">CPU Model</td>
+                <td style="border: 1px solid black; padding: 10px;">CPU Load</td>
+            </tr>
+            @foreach (CimInstance oneProcessor in allProcessors)
+            {
+                <tr style="border: 1px solid black; padding: 10px;">
+                    <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["SystemName"].ToString().Split(' ')[2].Replace('"', ' ')</td>
+                    <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["Name"].ToString().TrimEnd().Split('=')[1].Replace('"', ' ').Replace('.', ' ')</td>
+                    <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["LoadPercentage"].ToString().Split(' ')[2]%</td>
+                </tr>
+            }
+        </table>
+
+        <br />
+
+
+        <table style="border: 1px solid black; padding: 10px;">
+            <tr style="border: 1px solid black; padding: 10px;">
+                <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
+                <td style="border: 1px solid black; padding: 10px;">Capacity</td>
+                <td style="border: 1px solid black; padding: 10px;">Free Space</td>
+            </tr>
+            @foreach (CimInstance oneVolume in allVolumes)
+            {
+                <tr style="border: 1px solid black; padding: 10px;">
+                    @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
                     {
-                        <td style="border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["DriveLetter"].ToString().Split(' ')[2].Replace('"', ' ')</td>
-                        <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(oneVolume.CimInstanceProperties["Capacity"].ToString().Split(' ')[2]) / 1000000) MB</td>
-                        <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(oneVolume.CimInstanceProperties["FreeSpace"].ToString().Split(' ')[2]) / 1000000) MB</td>
+                        if (@oneVolume.CimInstanceProperties["DriveLetter"].ToString() != "DriveLetter")
+                        {
+                            <td style="border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["DriveLetter"].ToString().Split(' ')[2].Replace('"', ' ')</td>
+                            <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(oneVolume.CimInstanceProperties["Capacity"].ToString().Split(' ')[2]) / 1000000) MB</td>
+                            <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(oneVolume.CimInstanceProperties["FreeSpace"].ToString().Split(' ')[2]) / 1000000) MB</td>
+                        }
                     }
-                }
+                </tr>
+            }
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <img src="@Url.Action("DiskChart")" alt="SimpleChart" />
+                </td>
+
             </tr>
-        }
-    </table>
+        </table>
 
-    <br />
 
-    <table style="border: 1px solid black; padding: 10px;">
-        <tr style="border: 1px solid black; padding: 10px;">
-            <td style="border: 1px solid black; padding: 10px;">Disk ID</td>
-            <td style="border: 1px solid black; padding: 10px;">Disk Model</td>
-            <td style="border: 1px solid black; padding: 10px;">Disk Partitions</td>
-        </tr>
-        @foreach (CimInstance onePDisk in allPDisks)
-        {
+        <br />
+
+        <table style="border: 1px solid black; padding: 10px;">
             <tr style="border: 1px solid black; padding: 10px;">
-                <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"].ToString().Split(' ')[2].Replace('"', ' ')</td>
-                <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd().Split('=')[1].Replace('"', ' ')</td>
-                <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"].ToString().Split(' ')[2]</td>
+                <td style="border: 1px solid black; padding: 10px;">Disk ID</td>
+                <td style="border: 1px solid black; padding: 10px;">Disk Model</td>
+                <td style="border: 1px solid black; padding: 10px;">Disk Partitions</td>
             </tr>
-        }
-    </table>
-}
+            @foreach (CimInstance onePDisk in allPDisks)
+            {
+                <tr style="border: 1px solid black; padding: 10px;">
+                    <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"].ToString().Split(' ')[2].Replace('"', ' ')</td>
+                    <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd().Split('=')[1].Replace('"', ' ')</td>
+                    <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"].ToString().Split(' ')[2]</td>
+                </tr>
+            }
+        </table>
+
+
+    }
+</center>

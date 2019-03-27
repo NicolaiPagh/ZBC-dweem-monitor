@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Helpers;
+using Microsoft.Management.Infrastructure;
 
 namespace dweem_monitor.Controllers
 {
@@ -55,12 +56,51 @@ namespace dweem_monitor.Controllers
                                                <ChartArea Name=""Default"" BackColor=""Transparent""></ChartArea>
                                         </ChartAreas>
                                      </Chart>";
-            new Chart(width: 350, height: 350, theme: myTheme)
+            new Chart(width: 260, height: 260, theme: myTheme)
                 .AddSeries(
                     chartType: "pie",
-                         xValue: new[] { "aRAM", "uRAM" },
+                         xValue: new[] { "Available Ram", "Used Ram" },
                     yValues: new[] { aRAM, uRAM, })
                 .Write("png");
+            return null;
+        }
+        public ActionResult DiskChart(string computer)
+        {
+            CimSession session = Monitor.wmiProcess(computer);
+
+            var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
+            var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
+
+            foreach (CimInstance oneVolume in allVolumes)
+            {
+
+                if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
+                {
+                    if (@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]) == "DriveLetter")
+                    {
+
+                        String Size = Convert.ToString(oneVolume.CimInstanceProperties["Capacity"]).Split(' ')[2];
+                        String fSpace = Convert.ToString(oneVolume.CimInstanceProperties["FreeSpace"]).Split(' ')[2];
+                        decimal uDisk = Convert.ToDecimal(Size) - Convert.ToDecimal(fSpace);
+                        decimal aDisk = Convert.ToDecimal(fSpace);
+
+
+                        string myTheme =
+                                    @"<Chart BackColor=""Transparent"" >
+                                        <ChartAreas>
+                                               <ChartArea Name=""Default"" BackColor=""Transparent""></ChartArea>
+                                        </ChartAreas>
+                                     </Chart>";
+                        new Chart(width: 260, height: 260, theme: myTheme)
+                            .AddSeries(
+                                chartType: "pie",
+                                     xValue: new[] { "Available Diskspace", "Used Diskspace" },
+                                yValues: new[] { aDisk, uDisk, })
+                            .Write("png");
+                        
+                    }
+                }
+            }
             return null;
         }
     }
