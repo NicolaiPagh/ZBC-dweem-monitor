@@ -76,7 +76,7 @@ namespace dweem_monitor.Controllers
 
                 if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
                 {
-                    if (@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]) == "DriveLetter")
+                    if (@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]) == "DriveLetter = \"C:\"")
                     {
 
                         String Size = Convert.ToString(oneVolume.CimInstanceProperties["Capacity"]).Split(' ')[2];
@@ -94,7 +94,7 @@ namespace dweem_monitor.Controllers
                         new Chart(width: 260, height: 260, theme: myTheme)
                             .AddSeries(
                                 chartType: "pie",
-                                     xValue: new[] { "Available Diskspace", "Used Diskspace" },
+                                     xValue: new[] { "Available Diskspace", "Used Diskspace"},
                                 yValues: new[] { aDisk, uDisk, })
                             .Write("png");
                         
