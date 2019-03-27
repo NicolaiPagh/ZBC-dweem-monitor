@@ -26,20 +26,29 @@ namespace dweem_monitor
                 cpuSamples[i] = Monitor.getCurrentCpuUsage();
                 Task.Delay(TimeSpan.FromMilliseconds(10), cts.Token).GetAwaiter().GetResult();
             }
-            return cpuSamples.Average();
+            return Math.Round(cpuSamples.Average(), 0);
         }
-        public static int getAvailableRAM()
+        public static float getAvailableRAM()
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
             //return ram available as an int in MB
-            return Convert.ToInt32(ramCounter.NextValue());
+            return ramCounter.NextValue();
         }
 
         public static float getCommittedRAM()
         {
-            PerformanceCounter ramCounter = new PerformanceCounter("Memory", "% Committed Bytes In Use");
+            PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Committed Bytes");
             //return ram available as an int in MB
-            return ramCounter.NextValue();
+            return ramCounter.NextValue()/1000000;
+        }
+        public static double getTotalRAM()
+        {
+            float a = getAvailableRAM();
+            float c = getCommittedRAM();
+
+            float r = a + c;
+
+            return Math.Round(r/1000, 0);
         }
         public static float getNetworkBandwidthMB()
         {
