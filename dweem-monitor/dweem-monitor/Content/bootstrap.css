@@ -6756,19 +6756,35 @@ button.close {
     display: none !important;
   }
 }
-.dashboard {
-    font-weight: 900;
+/*
+.testtable {
+    background-color:aquamarine;
+    border: 1px solid black;
+    padding: 5px;
+}*/
+.dash-title {
+    font-weight:900;
     color: darkred;
 }
-.chaptersplit {
+.dash-divider {
     color: black;
     background-color: #696969;
     border-radius: 25px;
     font-family: 'Franklin Gothic';
     padding: 4px;
 }
-.cpuaverage {
-    color: forestgreen;
-    font-weight: 700;
+.color-block {
+    height: 10px;
+    width: 10px;
 }
+.color-block-1 {
+    background-color: dodgerblue;
+}
+.color-block-2 {
+    background-color: orange;
+}
+.mon-counter-cpu {
+    color:forestgreen;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
