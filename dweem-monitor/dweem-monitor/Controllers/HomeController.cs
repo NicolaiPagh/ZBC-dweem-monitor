@@ -47,7 +47,7 @@ namespace dweem_monitor.Controllers
         public ActionResult RamChart()
         {
             decimal uRAM = Convert.ToDecimal(Monitor.getCommittedRAM());
-            decimal aRAM = Monitor.getAvailableRAM();
+            decimal aRAM = Convert.ToDecimal(Monitor.getAvailableRAM());
 
             string myTheme =
                 @"<Chart BackColor=""Transparent"" >

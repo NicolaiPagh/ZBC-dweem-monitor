@@ -3,11 +3,13 @@
     ViewBag.Title = "Dashboard";
 
 }
-<p>Monitorering</p>
+<h1>LocalMon</h1>
 <p>Average CPU usage over 100 samples = @Monitor.getCpuUsageAvg(100)%</p>
 <p>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
 <p>Current RAM in use = @Monitor.getCommittedRAM()MB</p>
-
+<div class="row">
+    <img src="@Url.Action("RamChart")" alt="SimpleChart" />
+</div>
 
 <h1>RemoteMon</h1>
 
@@ -97,18 +99,3 @@
         }
     </table>
 }
-<table style="border: 1px solid black; padding: 10px;">
-    @foreach (CimInstance onePDisk in allPDisks)
-    {
-    <tr style="border: 1px solid black; padding: 10px;">
-        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"]</td>
-        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd()</td>
-        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"]</td>
-    </tr>
-    }
-</table>
-}
-
-<div class="row">
-    <img src="@Url.Action("RamChart")" alt="SimpleChart" />
-</div>
