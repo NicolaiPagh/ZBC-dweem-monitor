@@ -41,6 +41,12 @@ namespace dweem_monitor
             CimSession Session = CimSession.Create(computer, SessionOptions);
             return Session;
         }
+
+        public static string formatCim(CimInstance instance, string property)
+        {
+            return instance.CimInstanceProperties[property].ToString().Split('=')[1].Replace('"', '\0');
+        }
+
         private static float getCurrentCpuUsage()
         {
             PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");

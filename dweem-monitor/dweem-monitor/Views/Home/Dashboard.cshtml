@@ -62,44 +62,44 @@
                     </tr>
                     @foreach (CimInstance oneProcessor in allProcessors)
                     {
-                        <tr style="border: 1px solid black; padding: 10px;">
-                            <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["SystemName"].ToString().Split(' ')[2].Replace('"', ' ')</td>
-                            <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["Name"].ToString().TrimEnd().Split('=')[1].Replace('"', ' ').Replace('.', ' ')</td>
-                            <td style="border: 1px solid black; padding: 10px;">@oneProcessor.CimInstanceProperties["LoadPercentage"].ToString().Split(' ')[2]%</td>
-                        </tr>
+                    <tr style="border: 1px solid black; padding: 10px;">
+                        <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "SystemName")</td>
+                        <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "Name")</td>
+                        <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "LoadPercentage")%</td>
+                    </tr>
                     }
                 </table>
 
                 <br />
 
-
-        <table style="border: 1px solid black; padding: 10px;">
-            <tr style="border: 1px solid black; padding: 10px;">
-                <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
-                <td style="border: 1px solid black; padding: 10px;">Capacity</td>
-                <td style="border: 1px solid black; padding: 10px;">Free Space</td>
-            </tr>
-            @foreach (CimInstance oneVolume in allVolumes)
-            {
-                <tr style="border: 1px solid black; padding: 10px;">
-                    @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
-                    {
-                        if (@oneVolume.CimInstanceProperties["DriveLetter"].ToString() != "DriveLetter")
-                        {
-                            <td style="border: 1px solid black; padding: 10px;">@oneVolume.CimInstanceProperties["DriveLetter"].ToString().Split(' ')[2].Replace('"', ' ')</td>
-                            <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(oneVolume.CimInstanceProperties["Capacity"].ToString().Split(' ')[2]) / 1000000) MB</td>
-                            <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(oneVolume.CimInstanceProperties["FreeSpace"].ToString().Split(' ')[2]) / 1000000) MB</td>
-                        }
-                    }
-                </tr>
-            }
-        </table>
-        <table>
-            <tr>
-                <td>
-                    <img src="@Url.Action("DiskChart", new { computer = computer })" alt="SimpleChart" />
-                </td>
-
+                <table>
+                    <tr>
+                        <td>
+                            <table style="border: 1px solid black; padding: 10px;">
+                                <tr style="border: 1px solid black; padding: 10px;">
+                                    <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
+                                    <td style="border: 1px solid black; padding: 10px;">Capacity</td>
+                                    <td style="border: 1px solid black; padding: 10px;">Free Space</td>
+                                </tr>
+                                @foreach (CimInstance oneVolume in allVolumes)
+                                {
+                                    <tr style="border: 1px solid black; padding: 10px;">
+                                        @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
+                                        {
+                                            if (@oneVolume.CimInstanceProperties["DriveLetter"].ToString() != "DriveLetter")
+                                            {
+                                                <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneVolume, "DriveLetter")</td>
+                                                <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(Monitor.formatCim(oneVolume, "Capacity")) / 1000000) MB</td>
+                                                <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(Monitor.formatCim(oneVolume, "FreeSpace")) / 1000000) MB</td>
+                                            }
+                                        }
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                        <td>
+                            <img src="@Url.Action("DiskChart", new { computer = computer })" alt="SimpleChart" />
+                        </td>
                     </tr>
                 </table>
 
@@ -115,9 +115,9 @@
                     @foreach (CimInstance onePDisk in allPDisks)
                     {
                         <tr style="border: 1px solid black; padding: 10px;">
-                            <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"].ToString().Split(' ')[2].Replace('"', ' ')</td>
-                            <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd().Split('=')[1].Replace('"', ' ')</td>
-                            <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"].ToString().Split(' ')[2]</td>
+                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "DeviceId")</td>
+                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "Model")</td>
+                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "Partitions")</td>
                         </tr>
                     }
                 </table>
