@@ -11,54 +11,73 @@
     }
 
 }
-<p>Monitorering</p>
-<p>Current CPU usage = @Monitor.getCurrentCpuUsage()%</p>
-<p>Average CPU usage over 20 samples = @cpuSamples.Average()%</p>
-<p>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
-<p>Current RAM in use = @Monitor.getCommittedRAM()%</p>
+<center>
+    <h1 style="color:darkred">Dashboard</h1>
 
-@{CimSession session = Monitor.wmiProcess();}
+    <br />
 
-@{
-    var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
-    var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
+    <p style="color:orangered">Current CPU usage = @cpuSamples.Average()%</p>
 
-<table style="border: 1px solid black; padding: 10px;">
-    <tr style="border: 1px solid black; padding: 10px;">
-        <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
-        <td style="border: 1px solid black; padding: 10px;">Capacity</td>
-        <td style="border: 1px solid black; padding: 10px;">Free Space</td>
-    </tr>
-    @foreach (CimInstance oneVolume in allVolumes)
-    {
-    <tr style="border: 1px solid black; padding: 10px;">
-        @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
-        {
-            if (@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]) != "DriveLetter")
-            {
-                <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]).Split(' ')[2]</td>
-                <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["Capacity"]).Split(' ')[2]</td>
-                <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["FreeSpace"]).Split(' ')[2]</td>
+    <br />
+
+    
+        @{CimSession session = Monitor.wmiProcess();}
+
+        @{
+            var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
+            var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
+
+            <table style="border: 1px solid black; padding: 10px;">
+                @foreach (CimInstance onePDisk in allPDisks)
+                {
+                    <tr style="border: 1px solid black; padding: 10px;">
+                        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"]</td>
+                        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd()</td>
+                        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"]</td>
+                    </tr>
+                }
+            </table>
+            <table>
+            <tr>
+                <td>
+                    <img src="@Url.Action("DiskChart")" alt="SimpleChart" />
+                </td>
+                <td>
+                    <table style="border: 1px solid black; padding: 10px;">
+                        <tr style="border: 1px solid black; padding: 10px;">
+                            <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
+                            <td style="border: 1px solid black; padding: 10px;">Capacity</td>
+                            <td style="border: 1px solid black; padding: 10px;">Free Space</td>
+                        </tr>
+                        @foreach (CimInstance oneVolume in allVolumes)
+                        {
+                            <tr style="border: 1px solid black; padding: 10px;">
+                                @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
+                                {
+                                    if (@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]) != "DriveLetter")
+                                    {
+                                        <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["DriveLetter"]).Split(' ')[2]</td>
+                                        <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["Capacity"]).Split(' ')[2]</td>
+                                        <td style="border: 1px solid black; padding: 10px;">@Convert.ToString(oneVolume.CimInstanceProperties["FreeSpace"]).Split(' ')[2]</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </table>
+                    <br />
+                </td>
+            </tr>
+    </table>
             }
-        }
-    </tr>
-    }
-</table>
-
-<br />
-
-<table style="border: 1px solid black; padding: 10px;">
-    @foreach (CimInstance onePDisk in allPDisks)
-    {
-    <tr style="border: 1px solid black; padding: 10px;">
-        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["DeviceId"]</td>
-        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Model"].ToString().TrimEnd()</td>
-        <td style="border: 1px solid black; padding: 10px;">@onePDisk.CimInstanceProperties["Partitions"]</td>
-    </tr>
-    }
-</table>
-}
-
-<div class="row">
-    <img src="@Url.Action("RamChart")" alt="SimpleChart" />
-</div>
+    <table>
+        <tr>
+            <td>
+                <p><div style="height: 10px; width: 10px; background-color:dodgerblue"></div>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
+                <p><div style="height: 10px; width: 10px; background-color:orange"></div>Current RAM in use = @Monitor.getCommittedRAM()%</p>
+            </td>
+            <td>
+                <img src="@Url.Action("RamChart")" alt="SimpleChart" />
+            </td>
+        </tr>
+    </table>
+</center>
