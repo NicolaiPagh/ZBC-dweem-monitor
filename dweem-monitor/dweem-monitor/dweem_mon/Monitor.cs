@@ -55,7 +55,7 @@ namespace dweem_monitor
             for (int i = 0; i < samples; i++)
             {
                 cpuSamples[i] = Monitor.getCurrentCpuUsage();
-                Task.Delay(TimeSpan.FromMilliseconds(10), cts.Token).GetAwaiter().GetResult();
+                Task.Delay(TimeSpan.FromMilliseconds(20), cts.Token).GetAwaiter().GetResult();
             }
             return Math.Round(cpuSamples.Average(), 0);
         }
@@ -65,7 +65,6 @@ namespace dweem_monitor
             //return ram available as an int in MB
             return ramCounter.NextValue();
         }
-
         public static float getCommittedRAM()
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Committed Bytes");
@@ -79,7 +78,7 @@ namespace dweem_monitor
 
             float r = a + c;
 
-            return Math.Round(r/1000, 0);
+            return Math.Round(r, 0);
         }
         public static float getNetworkBandwidthMB()
         {
