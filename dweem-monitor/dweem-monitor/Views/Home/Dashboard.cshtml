@@ -4,10 +4,10 @@
 }
 
 <center>
-    <h1 style="color:darkred; font-weight: 900; ">Dashboard</h1>
+    <br />
+    <h1 class="dashboard">Dashboard</h1>
     <br />  
-    <h3 style="color: black; background-color:#696969; border-radius: 25px; font-family: 'Franklin Gothic'; padding: 4px; ">Local Monitoring</h3>
-            <p style="color:forestgreen">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
+    <h3 class="chaptersplit">Local Monitoring</h3>
 
     <table>
         <tr>
@@ -17,6 +17,10 @@
             </td>
             <td>
                 <img src="@Url.Action("RamChart")" alt="SimpleChart" />
+            </td>
+            <td>
+                <p class="cpuaverage">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
+                <p class="cpuaverage">Total RAM = @Monitor.getTotalRAM()MB</p>
             </td>
         </tr>
     </table>
@@ -31,7 +35,7 @@
 
     }
 
-            <h3 style="color: black; background-color:#696969; border-radius: 25px; font-family: 'Franklin Gothic'; padding: 4px; ">Remote Monitoring</h3>
+            <h3 class="chaptersplit">Remote Monitoring</h3>
 
     <form method="post">
         <select name="ddComputers">

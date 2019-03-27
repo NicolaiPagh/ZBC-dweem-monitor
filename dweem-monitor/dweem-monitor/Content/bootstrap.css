@@ -60,6 +60,7 @@ dfn {
   font-style: italic;
 }
 h1 {
+  color:red;
   margin: .67em 0;
   font-size: 2em;
 }
@@ -6754,5 +6755,20 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+.dashboard {
+    font-weight: 900;
+    color: darkred;
+}
+.chaptersplit {
+    color: black;
+    background-color: #696969;
+    border-radius: 25px;
+    font-family: 'Franklin Gothic';
+    padding: 4px;
+}
+.cpuaverage {
+    color: forestgreen;
+    font-weight: 700;
 }
 /*# sourceMappingURL=bootstrap.css.map */
