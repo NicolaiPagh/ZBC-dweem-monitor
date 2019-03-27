@@ -4,16 +4,16 @@
 }
 
 <center>
-    <h1 style="color:darkred; font-weight: 900; ">Dashboard</h1>
+    <h1 class="dash-title">Dashboard</h1>
     <br />  
-    <h3 style="color: black; background-color:#696969; border-radius: 25px; font-family: 'Franklin Gothic'; padding: 4px; ">Local Monitoring</h3>
-            <p style="color:forestgreen">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
+    <h3 class="dash-divider">Local Monitoring</h3>
+            <p class="mon-counter-cpu">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
 
     <table>
         <tr>
             <td>
-                <p><div style="height: 10px; width: 10px; background-color:dodgerblue"></div>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
-                <p><div style="height: 10px; width: 10px; background-color:orange"></div>Current RAM in use = @Convert.ToInt32(Monitor.getCommittedRAM())MB</p>
+                <p><div class="color-block color-block-1"></div>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
+                <p><div class="color-block color-block-2"></div>Current RAM in use = @Convert.ToInt32(Monitor.getCommittedRAM())MB</p>
             </td>
             <td>
                 <img src="@Url.Action("RamChart")" alt="SimpleChart" />
@@ -31,7 +31,7 @@
 
     }
 
-            <h3 style="color: black; background-color:#696969; border-radius: 25px; font-family: 'Franklin Gothic'; padding: 4px; ">Remote Monitoring</h3>
+            <h3 class="dash-divider">Remote Monitoring</h3>
 
     <form method="post">
         <select name="ddComputers">
