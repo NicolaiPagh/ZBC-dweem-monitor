@@ -2,20 +2,12 @@
 @{
     ViewBag.Title = "Dashboard";
 
-    int[] cpuSamples = new int[20];
-
-    for (int i = 0; i < 20; i++)
-    {
-        cpuSamples[i] = Monitor.getCurrentCpuUsage();
-
-    }
-
 }
 <p>Monitorering</p>
-<p>Current CPU usage = @Monitor.getCurrentCpuUsage()%</p>
-<p>Average CPU usage over 20 samples = @cpuSamples.Average()%</p>
+<p>Average CPU usage over 100 samples = @Monitor.getCpuUsageAvg(100)%</p>
 <p>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
-<p>Current RAM in use = @Monitor.getCommittedRAM()%</p>
+<p>Current RAM in use = @Monitor.getCommittedRAM()MB</p>
+
 
 @{CimSession session = Monitor.wmiProcess();}
 
