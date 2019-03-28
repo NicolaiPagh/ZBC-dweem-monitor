@@ -6,17 +6,17 @@
 <h2>Sql</h2>
 
 @{
-    string[,] array = Database.SqlConnect();
+    string[,] array = Database.SqlTestSite("SELECT * FROM user_video");
 }
 
 <table style="width:auto; border: 1px solid black; padding: 10px;">
     @for (int i = 0; i < array.Length/3; i++)
     {
         <tr style="width:auto; border: 1px solid black; padding: 10px;">
-        @for (int j = 0; j < 3; j++)
-        {
-            <td style="width:auto; border: 1px solid black; padding: 10px;">@array[i, j]</td>
-        }
+            @for (int j = 0; j < 3; j++)
+            {
+                <td style="width:auto; border: 1px solid black; padding: 10px;">@array[i, j]</td>
+            }
         </tr>
     }
 </table>

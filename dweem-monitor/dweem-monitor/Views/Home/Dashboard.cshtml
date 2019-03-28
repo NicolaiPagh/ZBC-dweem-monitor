@@ -1,13 +1,14 @@
 ﻿
 @{
     ViewBag.Title = "Dashboard";
+    string computer;
 }
 
 <center>
     <h1 class="dash-title">Dashboard</h1>
-    <br />  
+    <br />
     <h3 class="dash-divider">Local Monitoring</h3>
-            <p class="mon-counter-cpu">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
+    <p class="mon-counter-cpu">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
 
     <table>
         <tr>
@@ -21,114 +22,136 @@
         </tr>
     </table>
 
-
-
-
     @{
-        List<string> computers = new List<string>();
-        computers.Add("192.168.1.27");
-        computers.Add("192.168.1.28");
-
+        List<string> computers = Database.SqlGetComputers("SELECT name FROM computers");
     }
 
-            <h3 class="dash-divider">Remote Monitoring</h3>
-
+    <h3 class="dash-divider">Remote Monitoring</h3>
     <form method="post">
-        <select name="ddComputers">
-            @foreach (string c in computers)
-            {
-                <option value=@c>@c</option>
-            }
-        </select>
+        <table>
+            <tr>
+                <td class="remote-mon-table-pad">
+
+                    <select name="ddComputers">
+                        @foreach (string c in computers)
+                        {
+                            <option value=@c>@c</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="newComputer" value="" />
+                </td>
+            </tr>
+        </table>
         <br />
         <input type="submit">
     </form>
     <br />
     @if (IsPost)
     {
-        string computer = Request.Form["ddComputers"];
+        if(Request.Form["newComputer"] != "")
+        {
+            computer = Request.Form["newComputer"];
+            Database.SqlAddComputer(computer);
+        }
+        else
+        {
+            computer = Request.Form["ddComputers"];
+        }
         CimSession session = Monitor.wmiProcess(computer);
 
         var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
         var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
         var allProcessors = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Processor");
+        List<string> propertyProc = new List<string>(new string[] { "SystemName", "Name", "LoadPercentage" });
 
-    <table>
-        <tr>
-            <td style="padding:10px;">
-                <table style="border: 1px solid black; padding: 10px;">
-                    <tr style="border: 1px solid black; padding: 10px;">
-                        <td style="border: 1px solid black; padding: 10px;">System Name</td>
-                        <td style="border: 1px solid black; padding: 10px;">CPU Model</td>
-                        <td style="border: 1px solid black; padding: 10px;">CPU Load</td>
-                    </tr>
-                    @foreach (CimInstance oneProcessor in allProcessors)
-                    {
-                        <tr style="border: 1px solid black; padding: 10px;">
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "SystemName")</td>
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "Name")</td>
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneProcessor, "LoadPercentage")%</td>
-                        </tr>
-                    }
-                </table>
-            </td>
-            <td>
-                <table style="border: 1px solid black; padding: 10px;">
-                    <tr style="border: 1px solid black; padding: 10px;">
-                        <td style="border: 1px solid black; padding: 10px;">Disk ID</td>
-                        <td style="border: 1px solid black; padding: 10px;">Disk Model</td>
-                        <td style="border: 1px solid black; padding: 10px;">Disk Partitions</td>
-                    </tr>
-                    @foreach (CimInstance onePDisk in allPDisks)
-                    {
-                        <tr style="border: 1px solid black; padding: 10px;">
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "DeviceId")</td>
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "Model")</td>
-                            <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(onePDisk, "Partitions")</td>
-                        </tr>
-                    }
-                </table>
-            </td>
-        </tr>
-    </table>
-    <br />
+        List<string> propertyDisk = new List<string>(new string[] { "DeviceID", "Model", "Partitions" });
+        List<string> propertyVol = new List<string>(new string[] { "DriveLetter", "Capacity", "FreeSpace" });
 
-    <table>
-        <tr>
-            <td>
-                <table style="border: 1px solid black; padding: 10px;">
-                    <tr style="border: 1px solid black; padding: 10px;">
-                        <td style="border: 1px solid black; padding: 10px;">Drive Letter</td>
-                        <td style="border: 1px solid black; padding: 10px;">Capacity</td>
-                        <td style="border: 1px solid black; padding: 10px;">Free Space</td>
-                    </tr>
-                    @foreach (CimInstance oneVolume in allVolumes)
-                    {
-                        <tr style="border: 1px solid black; padding: 10px;">
-                            @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
-                            {
-                                if (@oneVolume.CimInstanceProperties["DriveLetter"].ToString() != "DriveLetter")
+
+        <table>
+            <tr>
+                <td class="remote-mon-table-pad">
+                    <table class="remote-mon-table">
+                        <tr class="remote-mon-table">
+                            <td class="remote-mon-table">System Name</td>
+                            <td class="remote-mon-table">CPU Model</td>
+                            <td class="remote-mon-table">CPU Load</td>
+                        </tr>
+                        @foreach (CimInstance oneProcessor in allProcessors)
+                        {
+                            <tr class="remote-mon-table">
+                                @foreach (string prop in propertyProc)
                                 {
-                                    <td style="border: 1px solid black; padding: 10px;">@Monitor.formatCim(oneVolume, "DriveLetter")</td>
-                                    <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(Monitor.formatCim(oneVolume, "Capacity")) / 1000000) MB</td>
-                                    <td style="border: 1px solid black; padding: 10px;">@(Convert.ToInt64(Monitor.formatCim(oneVolume, "FreeSpace")) / 1000000) MB</td>
+                                    <td class="remote-mon-table">@Monitor.formatCim(oneProcessor, prop)</td>
                                 }
-                            }
+                            </tr>
+                        }
+                    </table>
+                </td>
+                <td>
+                    <table class="remote-mon-table">
+                        <tr class="remote-mon-table">
+                            <td class="remote-mon-table">Disk ID</td>
+                            <td class="remote-mon-table">Disk Model</td>
+                            <td class="remote-mon-table">Disk Partitions</td>
                         </tr>
-                    }
-                </table>
-            </td>
-            <td>
-                <img src="@Url.Action("DiskChart", new { computer = computer })" alt="SimpleChart" />
-            </td>
-        </tr>
-    </table>
+                        @foreach (CimInstance onePDisk in allPDisks)
+                        {
+                            <tr class="remote-mon-table">
+                                @foreach (string prop in propertyDisk)
+                                {
+                                    <td class="remote-mon-table">@Monitor.formatCim(onePDisk, prop)</td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                </td>
+            </tr>
+        </table>
 
-
-    <br />
-
-
-
-
+        <br />
+        
+        <table>
+            <tr>
+                <td>
+                    <table class="remote-mon-table">
+                        <tr class="remote-mon-table">
+                            <td class="remote-mon-table">Drive Letter</td>
+                            <td class="remote-mon-table">Capacity</td>
+                            <td class="remote-mon-table">Free Space</td>
+                        </tr>
+                        @foreach (CimInstance oneVolume in allVolumes)
+                        {
+                            <tr class="remote-mon-table">
+                                @if (oneVolume.CimInstanceProperties["DriveLetter"].ToString()[0] > ' ')
+                                {
+                                    if (@oneVolume.CimInstanceProperties["DriveLetter"].ToString() != "DriveLetter")
+                                    {
+                                        foreach (string prop in propertyVol)
+                                        {
+                                            <td class="remote-mon-table">
+                                                @if (prop == "Capacity" || prop == "FreeSpace")
+                                                {
+                                                    <span>@(Convert.ToInt64(Monitor.formatCim(oneVolume, prop)) / 1000000) MB</span>
+                                                }
+                                                else
+                                                {
+                                                    @Monitor.formatCim(oneVolume, prop)
+                                                }
+                                            </td>
+                                        }
+                                    }
+                                }
+                            </tr>
+                        }
+                    </table>
+                </td>
+                <td>
+                    <img src="@Url.Action("DiskChart", new { computer = computer })" alt="SimpleChart" />
+                </td>
+            </tr>
+        </table>
     }
 </center>

@@ -6755,12 +6755,7 @@ button.close {
     display: none !important;
   }
 }
-/*
-.testtable {
-    background-color:aquamarine;
-    border: 1px solid black;
-    padding: 5px;
-}*/
+
 .dash-title {
     font-weight:900;
     color: darkred;
@@ -6785,5 +6780,11 @@ button.close {
 .mon-counter-cpu {
     color:forestgreen;
 }
-
+.remote-mon-table {
+    border: 1px solid black;
+    padding: 10px;
+}
+.remote-mon-table-pad{
+    padding:10px;
+}
 /*# sourceMappingURL=bootstrap.css.map */
