@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace dweem_monitor
 {
-    public class GetEventLog
+    public class DweemELog
     {
         //public static EventLog[] GetEventLogs(string machineName)
-        public static EventLog[] GetEventLogs(string machineName)
+        public static System.Diagnostics.EventLog[] GetEventLogs(string machineName)
         {
 
-            EventLog[] EventLogs;
+            System.Diagnostics.EventLog[] EventLogs;
 
-            EventLogs = EventLog.GetEventLogs(machineName);
+            EventLogs = System.Diagnostics.EventLog.GetEventLogs(machineName);
 
             int i = 0;
-            EventLog[] eLogs = new EventLog[EventLogs.Length];
+            System.Diagnostics.EventLog[] eLogs = new System.Diagnostics.EventLog[EventLogs.Length];
             
-            foreach (EventLog log in EventLogs)
+            foreach (System.Diagnostics.EventLog log in EventLogs)
             {
                 eLogs[i] = log;
                 i++;

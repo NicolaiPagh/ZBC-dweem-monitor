@@ -55,8 +55,8 @@
 
     <h3 class="dash-divider dash-br">Event-log</h3>
 
-    @{EventLog[] EventLogs = GetEventLog.GetEventLogs(Monitor.getHostName());
-        foreach (EventLog log in EventLogs)
+    @{      System.Diagnostics.EventLog[] EventLogs = dweem_monitor.DweemELog.GetEventLogs(Monitor.getHostName());
+        foreach (System.Diagnostics.EventLog log in EventLogs)
         {
             string printLog = log.Log;
             <br />
@@ -65,7 +65,7 @@
       }
         
     }
-
+    
     <h3 class="dash-divider dash-br">Remote Monitoring</h3>
     @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers") ; }
     <form method="post">
