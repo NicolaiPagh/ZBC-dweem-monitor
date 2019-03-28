@@ -53,12 +53,6 @@
         </tr>
     </table>
 
-    @{
-        List<string> computers = new List<string>();
-        computers.Add("192.168.1.27");
-        computers.Add("192.168.1.28");
-
-    }
     <h3 class="dash-divider dash-br">Event-log</h3>
 
     @{EventLog[] EventLogs = GetEventLog.GetEventLogs(Monitor.getHostName());
@@ -69,13 +63,17 @@
             @printLog;
         }
       }
-        List<string> computers = Database.SqlGetComputers("SELECT name FROM computers");
+        
     }
 
     <h3 class="dash-divider dash-br">Remote Monitoring</h3>
-
+    @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers") ; }
     <form method="post">
         <table>
+            <tr>
+                <td><center>Choose computer</center></td>
+                <td><center>Add new computer</center></td>
+            </tr>
             <tr>
                 <td class="remote-mon-table-pad">
 
