@@ -118,9 +118,5 @@ namespace dweem_monitor
 
             return hostName;
         }
-        //public static System.Diagnostics.EventLog[] GetEventLogs(string red_winBTO)
-       // {
-            //return EventLog[]
-       // }
     }
 }
