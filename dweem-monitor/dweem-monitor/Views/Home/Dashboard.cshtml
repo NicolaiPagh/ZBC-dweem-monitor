@@ -1,15 +1,15 @@
 ﻿
 @{
     ViewBag.Title = "Dashboard";
+
     TimeSpan sut = SystemUpTime.getUptime();
 }
 
 <center>
-    <h1 class="dash-title">Dashboard</h1>
+    <h1 class="dash-title dash-fw">Dashboard</h1>
     <br />
-    <h3 class="dash-divider">Local Monitoring</h3>
+    <h3 class="dash-divider dash-br">Local Monitoring</h3>
 
-    @sut.Days @sut.Hours @sut.Minutes @sut.Seconds
 
     <table>
         <tr>
@@ -21,12 +21,28 @@
                 <img src="@Url.Action("RamChart")" alt="SimpleChart" />
             </td>
             <td>
-                <p class="mon-counter-cpu" style="border: 1px solid black; padding: 10px;">Average CPU usage = @Monitor.getCpuUsageAvg(100)%</p>
-                <p class="mon-counter-cpu" style="border: 1px solid black; padding: 10px;">Total RAM = @Monitor.getTotalRAM()MB</p>
+                <center>
+
+                    @{
+                        System.IO.DriveInfo Dinfo = new DriveInfo("C");
+
+                        double Dsize = double.Parse(Dinfo.TotalSize.ToString()) / 1073741824;
+                        double Dspace = double.Parse(Dinfo.TotalFreeSpace.ToString()) / 1073741824;
+
+                        string DsizeResult = @Dsize.ToString("##.00");
+                        string DspaceResult = @Dspace.ToString("##.00");
+                    }
+
+                    <p class="local-com-info dash-fw dash-br">Hostname - @Monitor.getHostName()</p>
+                    <p class="local-com-info dash-fw dash-br">Uptime - @{ @sut.Days}d @{ @sut.Hours}h @{ @sut.Minutes}m @{ @sut.Seconds}s</p>
+                    <p class="local-com-info dash-fw dash-br">Average CPU usage - @Monitor.getCpuUsageAvg(100)%</p>
+                    <p class="local-com-info dash-fw dash-br">Total RAM - @Monitor.getTotalRAM()MB</p>
+                    <p class="local-com-info dash-fw dash-br">Disk size = @DsizeResult GB</p>
+                    <p class="local-com-info dash-fw dash-br">Disk freespace = @DspaceResult GB</p>
+                </center>
             </td>
         </tr>
     </table>
-
 
 
 
@@ -36,10 +52,10 @@
         computers.Add("192.168.1.28");
 
     }
-    <h3 class="dash-divider">Event-log</h3>
+    <h3 class="dash-divider dash-br">Event-log</h3>
 
 
-    <h3 class="dash-divider">Remote Monitoring</h3>
+    <h3 class="dash-divider dash-br">Remote Monitoring</h3>
 
     <form method="post">
         <select name="ddComputers">

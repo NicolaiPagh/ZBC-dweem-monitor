@@ -80,7 +80,7 @@ namespace dweem_monitor
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Committed Bytes");
             //return ram available as an int in MB
-            return ramCounter.NextValue()/1000000;
+            return ramCounter.NextValue() / 1000000;
         }
         public static double getTotalRAM()
         {
@@ -118,9 +118,10 @@ namespace dweem_monitor
 
             return hostName;
         }
+
         //public static System.Diagnostics.EventLog[] GetEventLogs(string red_winBTO)
-       // {
-            //return EventLog[]
-       // }
+        // {
+        //return EventLog[]
+        // }
     }
 }

@@ -56,10 +56,10 @@ namespace dweem_monitor.Controllers
                                                <ChartArea Name=""Default"" BackColor=""Transparent""></ChartArea>
                                         </ChartAreas>
                                      </Chart>";
-            new Chart(width: 260, height: 260, theme: myTheme)
+            new Chart(width: 400, height: 400, theme: myTheme)
                 .AddSeries(
                     chartType: "pie",
-                         xValue: new[] { "Available RAM", "Used RAM" },
+                         xValue: new[] { "AVAILABLE RAM", "USED RAM" },
                     yValues: new[] { aRAM, uRAM, })
                 .Write("png");
             return null;
