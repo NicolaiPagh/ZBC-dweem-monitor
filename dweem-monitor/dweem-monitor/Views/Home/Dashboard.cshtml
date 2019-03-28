@@ -1,12 +1,15 @@
 ﻿
 @{
     ViewBag.Title = "Dashboard";
+    TimeSpan sut = SystemUpTime.getUptime();
 }
 
 <center>
     <h1 class="dash-title">Dashboard</h1>
     <br />
     <h3 class="dash-divider">Local Monitoring</h3>
+
+    @sut.Days @sut.Hours @sut.Minutes @sut.Seconds
 
     <table>
         <tr>
