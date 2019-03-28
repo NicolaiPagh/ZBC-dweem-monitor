@@ -6,18 +6,17 @@
 }
 
 <center>
+    <br />  
     <h1 class="dash-title dash-fw">Dashboard</h1>
     <br />
     <h3 class="dash-divider dash-br">Local Monitoring</h3>
 
-
     <table>
         <tr>
             <td>
-                <p><div class="color-block color-block-1"></div>Current Available RAM = @Monitor.getAvailableRAM()MB</p>
-                <p><div class="color-block color-block-2"></div>Current RAM in use = @Convert.ToInt32(Monitor.getCommittedRAM())MB</p>
+                <img src="@Url.Action("NetworkChart")" alt="SimpleChart" />
             </td>
-            <td>
+            <td class="ramchart">
                 <img src="@Url.Action("RamChart")" alt="SimpleChart" />
             </td>
             <td>
@@ -39,6 +38,15 @@
                     <p class="local-com-info dash-fw dash-br">Total RAM - @Monitor.getTotalRAM()MB</p>
                     <p class="local-com-info dash-fw dash-br">Disk size = @DsizeResult GB</p>
                     <p class="local-com-info dash-fw dash-br">Disk freespace = @DspaceResult GB</p>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <center>
+                    <div class="color-block color-block-1"></div><p class="dash-fw">Current Available RAM = @Monitor.getAvailableRAM()MB</p>
+                    <div class="color-block color-block-2"></div><p class="dash-fw">Current RAM in use = @Convert.ToInt32(Monitor.getCommittedRAM())MB</p>
                 </center>
             </td>
         </tr>

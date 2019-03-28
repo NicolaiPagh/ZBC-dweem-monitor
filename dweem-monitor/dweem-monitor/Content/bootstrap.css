@@ -6796,5 +6796,9 @@ button.close {
 .dash-br {
     border-radius: 10px;
 }
+.ramchart {
+    padding-left: 50px;
+    padding-right: 50px;
+}
 
 /*# sourceMappingURL=bootstrap.css.map */

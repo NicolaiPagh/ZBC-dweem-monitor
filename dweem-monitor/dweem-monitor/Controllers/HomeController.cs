@@ -103,5 +103,17 @@ namespace dweem_monitor.Controllers
             }
             return null;
         }
+        public ActionResult NetworkChart()
+        {
+            decimal throughput = 1742;
+
+            new Chart(width: 200, height: 400)
+                .AddSeries(
+                    chartType: "column",
+                    xValue: new[] { "TROUGHPUT IN MBIT" },
+                    yValues: new[] { throughput })
+                .Write("png");
+            return null;
+        }
     }
 }
