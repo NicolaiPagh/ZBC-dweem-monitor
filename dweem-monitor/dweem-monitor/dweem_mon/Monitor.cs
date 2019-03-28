@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Diagnostics;
+using System.Diagnostics.Eventing;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Management.Infrastructure;
@@ -65,6 +66,10 @@ namespace dweem_monitor
             }
             return Math.Round(cpuSamples.Average(), 0);
         }
+        public static Task getCpuUsageAvgTask()
+        {
+            return Task.Factory.StartNew(() => getCpuUsageAvg(100));
+        }
         public static float getAvailableRAM()
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
@@ -75,7 +80,7 @@ namespace dweem_monitor
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Committed Bytes");
             //return ram available as an int in MB
-            return ramCounter.NextValue()/1000000;
+            return ramCounter.NextValue() / 1000000;
         }
         public static double getTotalRAM()
         {
@@ -89,7 +94,7 @@ namespace dweem_monitor
         public static float getNetworkBandwidthMB()
         {
             PerformanceCounter netBandwidthCounter = new PerformanceCounter("Network Interface", "Current Bandwidth", "JMicron PCI Express Gigabit Ethernet Adapter");
-            //return ram available as an int in MB
+            //return current network bandwidth usage in Bytes
             return netBandwidthCounter.NextValue();
         }
         public static float getDiskAvgReadBytes()
@@ -107,5 +112,16 @@ namespace dweem_monitor
             PerformanceCounter diskAvgThroughputCounter = new PerformanceCounter("PhysicalDisk", "Avg. Disk Bytes/Transfer", "_Total");
             return diskAvgThroughputCounter.NextValue();
         }
+        public static string getHostName()
+        {
+            string hostName = System.Environment.MachineName;
+
+            return hostName;
+        }
+
+        //public static System.Diagnostics.EventLog[] GetEventLogs(string red_winBTO)
+        // {
+        //return EventLog[]
+        // }
     }
 }

@@ -51,15 +51,15 @@ namespace dweem_monitor.Controllers
             decimal aRAM = Convert.ToDecimal(Monitor.getAvailableRAM());
 
             string myTheme =
-                @"<Chart BackColor=""Transparent"" >
+                @"<Chart BackColor=""Transparent"">
                                         <ChartAreas>
                                                <ChartArea Name=""Default"" BackColor=""Transparent""></ChartArea>
                                         </ChartAreas>
                                      </Chart>";
-            new Chart(width: 260, height: 260, theme: myTheme)
+            new Chart(width: 400, height: 400, theme: myTheme)
                 .AddSeries(
                     chartType: "pie",
-                         xValue: new[] { "Available Ram", "Used Ram" },
+                         xValue: new[] { "AVAILABLE RAM", "USED RAM" },
                     yValues: new[] { aRAM, uRAM, })
                 .Write("png");
             return null;
@@ -94,13 +94,25 @@ namespace dweem_monitor.Controllers
                         new Chart(width: 260, height: 260, theme: myTheme)
                             .AddSeries(
                                 chartType: "pie",
-                                     xValue: new[] { "Available Diskspace", "Used Diskspace"},
+                                     xValue: new[] { "Available Diskspace", "Used Diskspace" },
                                 yValues: new[] { aDisk, uDisk, })
                             .Write("png");
                         
                     }
                 }
             }
+            return null;
+        }
+        public ActionResult NetworkChart()
+        {
+            decimal throughput = 1742;
+
+            new Chart(width: 200, height: 400)
+                .AddSeries(
+                    chartType: "column",
+                    xValue: new[] { "TROUGHPUT IN MBIT" },
+                    yValues: new[] { throughput })
+                .Write("png");
             return null;
         }
     }
