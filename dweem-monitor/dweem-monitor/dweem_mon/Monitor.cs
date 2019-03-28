@@ -118,4 +118,5 @@ namespace dweem_monitor
 
             return hostName;
         }
+    }
 }

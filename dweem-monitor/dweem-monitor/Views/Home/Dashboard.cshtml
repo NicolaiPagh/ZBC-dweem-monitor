@@ -7,7 +7,7 @@
 }
 
 <center>
-    <br />  
+    <br />
     <h1 class="dash-title dash-fw">Dashboard</h1>
     <br />
     <h3 class="dash-divider dash-br">Local Monitoring</h3>
@@ -55,19 +55,26 @@
 
     <h3 class="dash-divider dash-br">Event-log</h3>
 
-    @{      System.Diagnostics.EventLog[] EventLogs = dweem_monitor.DweemELog.GetEventLogs(Monitor.getHostName());
-        foreach (System.Diagnostics.EventLog log in EventLogs)
+    @{EventLog[] eventLogs = DweemEventLog.getEventNames(Monitor.getHostName());
+        foreach (EventLog log in eventLogs)
         {
             string printLog = log.Log;
             <br />
             @printLog;
         }
-      }
-        
     }
-    
+    <br />
+    <p>Test Area, please ignore.<p />
+    @{List<string> eventEntries = DweemEventLog.getSystemEvents(Monitor.getHostName(), "Error", 10);
+        foreach (string entries in eventEntries)
+        {
+            @entries;
+            <br />
+        }
+    }
+
     <h3 class="dash-divider dash-br">Remote Monitoring</h3>
-    @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers") ; }
+    @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers"); }
     <form method="post">
         <table>
             <tr>
@@ -77,12 +84,12 @@
             <tr>
                 <td class="remote-mon-table-pad">
 
-                    <select name="ddComputers">
-                        @foreach (string c in computers)
-                        {
-                            <option value=@c>@c</option>
-                        }
-                    </select>
+                    @*                   <select name="ddComputers">
+                             @foreach (string c in computers)
+                             {
+                                 <option value=@c>@c</option>
+                             }
+                        </select>*@
                 </td>
                 <td>
                     <input type="text" name="newComputer" value="" />
@@ -95,7 +102,7 @@
     <br />
     @if (IsPost)
     {
-        if(Request.Form["newComputer"] != "")
+        if (Request.Form["newComputer"] != "")
         {
             computer = Request.Form["newComputer"];
             Database.SqlAddComputer(computer);
@@ -157,7 +164,7 @@
         </table>
 
         <br />
-        
+
         <table>
             <tr>
                 <td>
