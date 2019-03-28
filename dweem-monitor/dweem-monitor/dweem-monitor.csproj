@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="dweem_mon\GetEventLog.cs" />
     <Compile Include="dweem_mon\Monitor.cs" />
     <Compile Include="dweem_mon\SystemUpTime.cs" />
     <Compile Include="Global.asax.cs">

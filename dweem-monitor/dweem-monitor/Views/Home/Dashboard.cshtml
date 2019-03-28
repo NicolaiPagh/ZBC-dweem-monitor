@@ -62,6 +62,14 @@
     }
     <h3 class="dash-divider dash-br">Event-log</h3>
 
+    @{EventLog[] EventLogs = GetEventLog.GetEventLogs(Monitor.getHostName());
+        foreach (EventLog log in EventLogs)
+        {
+            string printLog = log.Log;
+            <br />
+            @printLog;
+        }
+      }
 
     <h3 class="dash-divider dash-br">Remote Monitoring</h3>
 
