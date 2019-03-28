@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Diagnostics;
+using System.Diagnostics.Eventing;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Management.Infrastructure;
@@ -111,5 +112,15 @@ namespace dweem_monitor
             PerformanceCounter diskAvgThroughputCounter = new PerformanceCounter("PhysicalDisk", "Avg. Disk Bytes/Transfer", "_Total");
             return diskAvgThroughputCounter.NextValue();
         }
+        public static string getHostName()
+        {
+            string hostName = System.Environment.MachineName;
+
+            return hostName;
+        }
+        //public static System.Diagnostics.EventLog[] GetEventLogs(string red_winBTO)
+       // {
+            //return EventLog[]
+       // }
     }
 }
