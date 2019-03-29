@@ -11,7 +11,7 @@
     <h1 class="dash-title dash-fw">Dashboard</h1>
     <br />
 
-    @*--------------------------------LOCAL MON---------------------------------*@
+    <!--------------------------------LOCAL MON--------------------------------->
     <h3 class="dash-divider dash-br">Local Monitoring</h3>
 
     <table>
@@ -55,7 +55,7 @@
         </tr>
     </table>
 
-    @*-----------------------------EVENT LOG------------------------------*@
+    <!-----------------------------EVENT LOG------------------------------>
     <h3 class="dash-divider dash-br">Event-log</h3>
 
     @{EventLog[] EventLogs = GetEventLog.GetEventLogs(Monitor.getHostName());
@@ -67,7 +67,7 @@
         }
     }
 
-    @*-----------------------------REMOTE MON------------------------------*@
+    <!-----------------------------REMOTE MON------------------------------>
     <h3 class="dash-divider dash-br">Remote Monitoring</h3>
     @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers"); }
     <form method="post">
@@ -94,7 +94,7 @@
         <input type="submit">
     </form>
     <br />
-    @*-----------------------------ISPOST------------------------------*@
+    <!-------------------------------ISPOST-------------------------------->
     @if (IsPost)
     {
         if (Request.Form["newComputer"] != "")
@@ -115,7 +115,7 @@
         List<string> propertyProc = new List<string>(new string[] { "SystemName", "Name", "LoadPercentage" });
         List<string> propertyDisk = new List<string>(new string[] { "DeviceID", "Model", "Partitions" });
         List<string> propertyVol = new List<string>(new string[] { "DriveLetter", "Capacity", "FreeSpace" });
-        @*-----------------------------Processor, Disk------------------------------*@
+        <!-----------------------------Processor, Disk------------------------------>
         <table>
             <tr>
                 <td class="remote-mon-table-pad">
@@ -158,7 +158,7 @@
         </table>
 
         <br />
-        @*-----------------------------Volume------------------------------*@
+        <!-----------------------------Volume------------------------------>
         <table>
             <tr>
                 <td>
@@ -184,7 +184,7 @@
                                                 }
                                                 else
                                                 {
-                                                    @Monitor.formatCim(oneVolume, prop)
+                                                    @Monitor.formatCimString(oneVolume, prop)
                                                 }
                                             </td>
                                         }

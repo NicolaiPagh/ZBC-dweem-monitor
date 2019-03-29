@@ -94,9 +94,9 @@ namespace dweem_monitor
         }
         public static float getNetworkBandwidthMB()
         {
-            PerformanceCounter netBandwidthCounter = new PerformanceCounter("Network Interface", "Current Bandwidth", "JMicron PCI Express Gigabit Ethernet Adapter");
+            PerformanceCounter netBandwidthCounter = new PerformanceCounter("Network Interface", "Current Bandwidth", "Intel[R] Ethernet Connection [2] I219-LM");
             //return current network bandwidth usage in Bytes
-            return netBandwidthCounter.NextValue();
+            return netBandwidthCounter.NextValue() / 1000000;
         }
         public static float getDiskAvgReadBytes()
         {

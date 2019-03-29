@@ -105,7 +105,7 @@ namespace dweem_monitor.Controllers
         }
         public ActionResult NetworkChart()
         {
-            decimal throughput = 1742;
+            decimal throughput = Convert.ToDecimal(Monitor.getNetworkBandwidthMB());
 
             new Chart(width: 200, height: 400)
                 .AddSeries(
