@@ -7,9 +7,11 @@
 }
 
 <center>
-    <br />  
+    <br />
     <h1 class="dash-title dash-fw">Dashboard</h1>
     <br />
+
+    @*--------------------------------LOCAL MON---------------------------------*@
     <h3 class="dash-divider dash-br">Local Monitoring</h3>
 
     <table>
@@ -53,6 +55,7 @@
         </tr>
     </table>
 
+    @*-----------------------------EVENT LOG------------------------------*@
     <h3 class="dash-divider dash-br">Event-log</h3>
 
     @{EventLog[] EventLogs = GetEventLog.GetEventLogs(Monitor.getHostName());
@@ -62,12 +65,11 @@
             <br />
             @printLog;
         }
-      }
-        
     }
 
+    @*-----------------------------REMOTE MON------------------------------*@
     <h3 class="dash-divider dash-br">Remote Monitoring</h3>
-    @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers") ; }
+    @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers"); }
     <form method="post">
         <table>
             <tr>
@@ -92,9 +94,10 @@
         <input type="submit">
     </form>
     <br />
+    @*-----------------------------ISPOST------------------------------*@
     @if (IsPost)
     {
-        if(Request.Form["newComputer"] != "")
+        if (Request.Form["newComputer"] != "")
         {
             computer = Request.Form["newComputer"];
             Database.SqlAddComputer(computer);
@@ -103,7 +106,7 @@
         {
             computer = Request.Form["ddComputers"];
         }
-        CimSession session = Monitor.wmiProcess(computer);
+        CimSession session = Monitor.getCimSession(computer);
 
         var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
         var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
@@ -112,7 +115,7 @@
         List<string> propertyProc = new List<string>(new string[] { "SystemName", "Name", "LoadPercentage" });
         List<string> propertyDisk = new List<string>(new string[] { "DeviceID", "Model", "Partitions" });
         List<string> propertyVol = new List<string>(new string[] { "DriveLetter", "Capacity", "FreeSpace" });
-
+        @*-----------------------------Processor, Disk------------------------------*@
         <table>
             <tr>
                 <td class="remote-mon-table-pad">
@@ -127,7 +130,7 @@
                             <tr class="remote-mon-table">
                                 @foreach (string prop in propertyProc)
                                 {
-                                    <td class="remote-mon-table">@Monitor.formatCim(oneProcessor, prop)</td>
+                                    <td class="remote-mon-table">@Monitor.formatCimString(oneProcessor, prop)</td>
                                 }
                             </tr>
                         }
@@ -145,7 +148,7 @@
                             <tr class="remote-mon-table">
                                 @foreach (string prop in propertyDisk)
                                 {
-                                    <td class="remote-mon-table">@Monitor.formatCim(onePDisk, prop)</td>
+                                    <td class="remote-mon-table">@Monitor.formatCimString(onePDisk, prop)</td>
                                 }
                             </tr>
                         }
@@ -155,7 +158,7 @@
         </table>
 
         <br />
-        
+        @*-----------------------------Volume------------------------------*@
         <table>
             <tr>
                 <td>
@@ -177,7 +180,7 @@
                                             <td class="remote-mon-table">
                                                 @if (prop == "Capacity" || prop == "FreeSpace")
                                                 {
-                                                    <span>@(Convert.ToInt64(Monitor.formatCim(oneVolume, prop)) / 1000000) MB</span>
+                                                    <span>@(Convert.ToInt64(Monitor.formatCimString(oneVolume, prop)) / 1000000) MB</span>
                                                 }
                                                 else
                                                 {

@@ -14,7 +14,8 @@ namespace dweem_monitor
 {
     public class Monitor
     {
-        public static CimSession wmiProcess(string computer)
+        //--------------------------------CIM SESSION------------------------------------------
+        public static CimSession getCimSession(string computer)
         {
             //string computer = "192.168.1.27";
             string domain = "dweem.local";
@@ -42,8 +43,8 @@ namespace dweem_monitor
             CimSession Session = CimSession.Create(computer, SessionOptions);
             return Session;
         }
-
-        public static string formatCim(CimInstance instance, string property)
+        //--------------------------------CIM PROPERTY FORMATTING------------------------------------------
+        public static string formatCimString(CimInstance instance, string property)
         {
             return instance.CimInstanceProperties[property].ToString().Split('=')[1].Replace('"', '\0');
         }

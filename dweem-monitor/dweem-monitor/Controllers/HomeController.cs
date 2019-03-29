@@ -66,7 +66,7 @@ namespace dweem_monitor.Controllers
         }
         public ActionResult DiskChart(string computer)
         {
-            CimSession session = Monitor.wmiProcess(computer);
+            CimSession session = Monitor.getCimSession(computer);
 
             var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
             var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
