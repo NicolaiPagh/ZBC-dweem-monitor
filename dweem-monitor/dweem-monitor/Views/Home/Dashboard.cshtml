@@ -10,6 +10,8 @@
     <br />
     <h1 class="dash-title dash-fw">Dashboard</h1>
     <br />
+
+    <!--------------------------------LOCAL MON--------------------------------->
     <h3 class="dash-divider dash-br">Local Monitoring</h3>
 
     <table>
@@ -53,6 +55,7 @@
         </tr>
     </table>
 
+    <!-----------------------------EVENT LOG------------------------------>
     <h3 class="dash-divider dash-br">Event-log</h3>
 
     <br />
@@ -110,7 +113,9 @@
         }
     }
 
+    }
 
+    <!-----------------------------REMOTE MON------------------------------>
     <h3 class="dash-divider dash-br">Remote Monitoring</h3>
    @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers"); }
     <form method="post">
@@ -121,12 +126,11 @@
             </tr>
             <tr>
                 <td class="remote-mon-table-pad">
-
                     <select name="ddComputers">
-                             @foreach (string c in computers)
-                             {
-                                 <option value=@c>@c</option>
-                             }
+                        @foreach (string c in computers)
+                        {
+                            <option value=@c>@c</option>
+                        }
                     </select>
                 </td>
                 <td>
@@ -138,6 +142,7 @@
         <input type="submit">
     </form>
     <br />
+    <!-------------------------------ISPOST-------------------------------->
     @if (IsPost)
     {
         if (Request.Form["newComputer"] != "")
@@ -149,17 +154,16 @@
         {
             computer = Request.Form["ddComputers"];
         }
-        CimSession session = Monitor.wmiProcess(computer);
+        CimSession session = Monitor.getCimSession(computer);
 
         var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
         var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
         var allProcessors = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Processor");
-        List<string> propertyProc = new List<string>(new string[] { "SystemName", "Name", "LoadPercentage" });
 
+        List<string> propertyProc = new List<string>(new string[] { "SystemName", "Name", "LoadPercentage" });
         List<string> propertyDisk = new List<string>(new string[] { "DeviceID", "Model", "Partitions" });
         List<string> propertyVol = new List<string>(new string[] { "DriveLetter", "Capacity", "FreeSpace" });
-
-
+        <!-----------------------------Processor, Disk------------------------------>
         <table>
             <tr>
                 <td class="remote-mon-table-pad">
@@ -174,7 +178,7 @@
                             <tr class="remote-mon-table">
                                 @foreach (string prop in propertyProc)
                                 {
-                                    <td class="remote-mon-table">@Monitor.formatCim(oneProcessor, prop)</td>
+                                    <td class="remote-mon-table">@Monitor.formatCimString(oneProcessor, prop)</td>
                                 }
                             </tr>
                         }
@@ -192,7 +196,7 @@
                             <tr class="remote-mon-table">
                                 @foreach (string prop in propertyDisk)
                                 {
-                                    <td class="remote-mon-table">@Monitor.formatCim(onePDisk, prop)</td>
+                                    <td class="remote-mon-table">@Monitor.formatCimString(onePDisk, prop)</td>
                                 }
                             </tr>
                         }
@@ -202,7 +206,7 @@
         </table>
 
         <br />
-
+        <!-----------------------------Volume------------------------------>
         <table>
             <tr>
                 <td>
@@ -224,11 +228,11 @@
                                             <td class="remote-mon-table">
                                                 @if (prop == "Capacity" || prop == "FreeSpace")
                                                 {
-                                                    <span>@(Convert.ToInt64(Monitor.formatCim(oneVolume, prop)) / 1000000) MB</span>
+                                                    <span>@(Convert.ToInt64(Monitor.formatCimString(oneVolume, prop)) / 1000000) MB</span>
                                                 }
                                                 else
                                                 {
-                                                    @Monitor.formatCim(oneVolume, prop)
+                                                    @Monitor.formatCimString(oneVolume, prop)
                                                 }
                                             </td>
                                         }

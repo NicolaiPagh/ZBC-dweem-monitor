@@ -14,7 +14,8 @@ namespace dweem_monitor
 {
     public class Monitor
     {
-        public static CimSession wmiProcess(string computer)
+        //--------------------------------CIM SESSION------------------------------------------
+        public static CimSession getCimSession(string computer)
         {
             //string computer = "192.168.1.27";
             string domain = "dweem.local";
@@ -42,8 +43,8 @@ namespace dweem_monitor
             CimSession Session = CimSession.Create(computer, SessionOptions);
             return Session;
         }
-
-        public static string formatCim(CimInstance instance, string property)
+        //--------------------------------CIM PROPERTY FORMATTING------------------------------------------
+        public static string formatCimString(CimInstance instance, string property)
         {
             return instance.CimInstanceProperties[property].ToString().Split('=')[1].Replace('"', '\0');
         }
@@ -93,9 +94,9 @@ namespace dweem_monitor
         }
         public static float getNetworkBandwidthMB()
         {
-            PerformanceCounter netBandwidthCounter = new PerformanceCounter("Network Interface", "Current Bandwidth", "JMicron PCI Express Gigabit Ethernet Adapter");
+            PerformanceCounter netBandwidthCounter = new PerformanceCounter("Network Interface", "Current Bandwidth", "Intel[R] Ethernet Connection [2] I219-LM");
             //return current network bandwidth usage in Bytes
-            return netBandwidthCounter.NextValue();
+            return netBandwidthCounter.NextValue() / 1000000;
         }
         public static float getDiskAvgReadBytes()
         {
