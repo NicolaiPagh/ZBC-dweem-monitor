@@ -101,10 +101,12 @@
     </form>
     @if (IsPost)
     {
+        string eventLogHostName = Request.Form["eventLogHostName"];
         string eventLogName = Request.Form["eventLogName"];
         string eventLogType = Request.Form["eventLogType"];
+        string eventLogSamples = Request.Form["eventLogSamples"];
         {
-            List<string> eventEntries = DweemEventLog.getSystemEvents(Monitor.getHostName(), eventLogName, eventLogType, 10);
+            List<string> eventEntries = DweemEventLog.getSystemEvents(eventLogHostName, eventLogName, eventLogType, Convert.ToInt32(eventLogSamples));
             foreach (string entries in eventEntries)
             {
                 @entries;
