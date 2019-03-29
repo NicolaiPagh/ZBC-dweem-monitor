@@ -26,11 +26,11 @@ namespace dweem_monitor
             }
             return eLogs;
         }
-        public static List<string> getSystemEvents(string machineName = ".", string entryType = "Information", int samples = 10)
+        public static List<string> getSystemEvents(string machineName = ".", string eventLogName = "System", string entryType = "Information", int samples = 10)
         {
             //machineName = hostname/IP of computer you want to pull from, entryType specifices which event entries to search for, samples defines how many entries to pull from the database
             //entryTypes possible are as follows in order of lowest importance to highest, Information, Warning, Error, Critical
-            EventLog eventLogs = new EventLog("System", machineName);
+            EventLog eventLogs = new EventLog(eventLogName, machineName);
             EventLogEntryCollection eventLogEntryCollection = eventLogs.Entries;
 
             int eventCount = eventLogEntryCollection.Count;

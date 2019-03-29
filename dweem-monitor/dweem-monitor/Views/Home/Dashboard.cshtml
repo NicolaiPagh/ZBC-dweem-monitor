@@ -55,26 +55,64 @@
 
     <h3 class="dash-divider dash-br">Event-log</h3>
 
-    @{EventLog[] eventLogs = DweemEventLog.getEventNames(Monitor.getHostName());
-        foreach (EventLog log in eventLogs)
-        {
-            string printLog = log.Log;
-            <br />
-            @printLog;
-        }
-    }
     <br />
-    <p>Test Area, please ignore.<p />
-    @{List<string> eventEntries = DweemEventLog.getSystemEvents(Monitor.getHostName(), "Error", 10);
-        foreach (string entries in eventEntries)
+
+    <form method="post">
+        <table>
+            <tr>
+                <td><center>Enter hostname(. for localhost)</center></td>
+                <td><center>Choose Event Log</center></td>
+                <td><center>Entry Type</center></td>
+                <td><center>Enter amount of log entries to pull</center></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="eventLogHostName" value="" />
+                </td>
+                <td>
+
+                    <select name="eventLogName">
+                        @{EventLog[] eventLogss = DweemEventLog.getEventNames(Monitor.getHostName());}
+                        @foreach (EventLog log in eventLogss)
+                        {
+                            string printLog = log.Log;
+                            <option value=@printLog>@printLog</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <select name="eventLogType">
+                        <option value="Information">Information</option>
+                        <option value="Warning">Warning</option>
+                        <option value="Error">Error</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="eventLogSamples" value="" />
+                </td>
+            </tr>
+        </table>
+        <br />
+        <input name="eventlogging" type="submit">
+    </form>
+    @if (IsPost)
+    {
+        string eventLogName = Request.Form["eventLogName"];
+        string eventLogType = Request.Form["eventLogType"];
         {
-            @entries;
-            <br />
+            List<string> eventEntries = DweemEventLog.getSystemEvents(Monitor.getHostName(), eventLogName, eventLogType, 10);
+            foreach (string entries in eventEntries)
+            {
+                @entries;
+                <br />
+            }
         }
     }
 
+
     <h3 class="dash-divider dash-br">Remote Monitoring</h3>
-    @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers"); }
+   @{List<string> computers = Database.SqlGetComputers("SELECT name FROM computers"); }
     <form method="post">
         <table>
             <tr>
@@ -84,12 +122,12 @@
             <tr>
                 <td class="remote-mon-table-pad">
 
-                        <select name="ddComputers">
+                    <select name="ddComputers">
                              @foreach (string c in computers)
                              {
                                  <option value=@c>@c</option>
                              }
-                        </select>
+                    </select>
                 </td>
                 <td>
                     <input type="text" name="newComputer" value="" />
