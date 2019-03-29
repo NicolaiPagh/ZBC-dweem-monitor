@@ -45,6 +45,11 @@ namespace dweem_monitor.Controllers
             ViewBag.Message = "SQL test page.";
             return View();
         }
+        public ActionResult RemoteMon()
+        {
+            ViewBag.Message = "remote monitoring page.";
+            return View();
+        }
         public ActionResult RamChart()
         {
             decimal uRAM = Convert.ToDecimal(Monitor.getCommittedRAM());
