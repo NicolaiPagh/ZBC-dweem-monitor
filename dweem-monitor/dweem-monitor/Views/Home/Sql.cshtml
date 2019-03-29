@@ -3,19 +3,19 @@
     ViewBag.Title = "Sql";
 }
 
-<h2>Sql</h2>
+<h2>SQL</h2>
 
 @{
     string[,] array = Database.SqlTestSite("SELECT * FROM user_video");
 }
 
-<table style="width:auto; border: 1px solid black; padding: 10px;">
+<table class="remote-mon-table">
     @for (int i = 0; i < array.Length/3; i++)
     {
-        <tr style="width:auto; border: 1px solid black; padding: 10px;">
+        <tr class="remote-mon-table">
             @for (int j = 0; j < 3; j++)
             {
-                <td style="width:auto; border: 1px solid black; padding: 10px;">@array[i, j]</td>
+                <td class="remote-mon-table">@array[i, j]</td>
             }
         </tr>
     }

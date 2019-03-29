@@ -76,7 +76,6 @@
             </tr>
             <tr>
                 <td class="remote-mon-table-pad">
-
                     <select name="ddComputers">
                         @foreach (string c in computers)
                         {
@@ -109,11 +108,10 @@
         var allVolumes = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Volume");
         var allPDisks = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_DiskDrive");
         var allProcessors = session.QueryInstances(@"root\cimv2", "WQL", "SELECT * FROM Win32_Processor");
-        List<string> propertyProc = new List<string>(new string[] { "SystemName", "Name", "LoadPercentage" });
 
+        List<string> propertyProc = new List<string>(new string[] { "SystemName", "Name", "LoadPercentage" });
         List<string> propertyDisk = new List<string>(new string[] { "DeviceID", "Model", "Partitions" });
         List<string> propertyVol = new List<string>(new string[] { "DriveLetter", "Capacity", "FreeSpace" });
-
 
         <table>
             <tr>
