@@ -191,7 +191,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="dweem_mon\GetEventLog.cs" />
+    <Compile Include="dweem_mon\DweemEventlog.cs" />
     <Compile Include="dweem_mon\Monitor.cs" />
     <Compile Include="dweem_mon\SystemUpTime.cs" />
     <Compile Include="Global.asax.cs">
@@ -213,6 +213,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\dashbackground.png" />
     <Content Include="Images\dweem.png" />
     <Content Include="Images\dweem2.png" />
     <Content Include="Images\dweem3.png" />
@@ -221,6 +222,7 @@
     <Content Include="Images\dweemlogo.png" />
     <Content Include="Images\dweemlogo1.png" />
     <Content Include="Images\Header-V3-3.png" />
+    <Content Include="Images\localmon.png" />
     <Content Include="Images\LogoTop.PNG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

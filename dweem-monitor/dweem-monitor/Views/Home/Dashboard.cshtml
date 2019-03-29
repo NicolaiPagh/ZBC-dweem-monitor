@@ -58,13 +58,24 @@
     <!-----------------------------EVENT LOG------------------------------>
     <h3 class="dash-divider dash-br">Event-log</h3>
 
-    @{EventLog[] EventLogs = GetEventLog.GetEventLogs(Monitor.getHostName());
-        foreach (EventLog log in EventLogs)
+    @{EventLog[] eventLogs = DweemEventLog.getEventNames(Monitor.getHostName());
+        foreach (EventLog log in eventLogs)
         {
             string printLog = log.Log;
             <br />
             @printLog;
         }
+    }
+    <br />
+    <p>Test Area, please ignore.<p />
+    @{List<string> eventEntries = DweemEventLog.getSystemEvents(Monitor.getHostName(), "Error", 10);
+        foreach (string entries in eventEntries)
+        {
+            @entries;
+            <br />
+        }
+    }
+
     }
 
     <!-----------------------------REMOTE MON------------------------------>
